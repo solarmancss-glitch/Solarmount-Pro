@@ -1,0 +1,222 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    background: theme('colors.surface.950');
+    color: theme('colors.slate.100');
+    font-family: theme('fontFamily.sans');
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  #root {
+    min-height: 100%;
+  }
+  * { box-sizing: border-box; }
+
+  /* Studio routes take over the whole viewport (no page scrolling).
+     The `studio-locked` class is toggled on <html> by StudioRoute while
+     the 3D studio is mounted, so the landing page stays scrollable. */
+  html.studio-locked,
+  html.studio-locked body,
+  html.studio-locked #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+}
+
+@layer components {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: theme('colors.surface.600') transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar { width: 6px; height: 6px; }
+  .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: theme('colors.surface.600');
+    border-radius: 6px;
+    border: 1px solid transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover { background: theme('colors.surface.500'); }
+
+  .glass {
+    background: rgba(15, 20, 34, 0.78);
+    backdrop-filter: blur(12px) saturate(140%);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
+  }
+
+  .glass-strong {
+    background: rgba(11, 15, 26, 0.92);
+    backdrop-filter: blur(16px) saturate(160%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+  }
+
+  .field-label {
+    @apply block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-1;
+  }
+
+  .field-input {
+    @apply w-full h-8 px-2.5 text-xs text-slate-100 bg-surface-900/80 border border-surface-600 rounded-md
+      transition-colors duration-150 outline-none
+      focus:border-brand-500 focus:ring-1 focus:ring-brand-500/40
+      placeholder:text-slate-500;
+  }
+
+  .field-select {
+    @apply field-input appearance-none cursor-pointer pr-7;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6' fill='none'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%2394a3b8' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.6rem center;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-1.5 h-8 px-3 text-xs font-semibold rounded-md
+      transition-all duration-150 select-none cursor-pointer whitespace-nowrap
+      disabled:opacity-40 disabled:cursor-not-allowed;
+  }
+  .btn-ghost {
+    @apply btn text-slate-400 hover:text-slate-100 hover:bg-surface-700/60;
+  }
+  .btn-ghost.active {
+    @apply text-white bg-brand-600 hover:bg-brand-600 shadow-glow-brand;
+  }
+  .btn-primary {
+    @apply btn text-white bg-brand-600 hover:bg-brand-700 shadow-sm;
+  }
+  .btn-success {
+    @apply btn text-white bg-emerald-600 hover:bg-emerald-700;
+  }
+  .btn-warning {
+    @apply btn text-surface-900 bg-solar-400 hover:bg-solar-500;
+  }
+  .btn-danger {
+    @apply btn text-rose-300 border border-rose-500/30 hover:bg-rose-500/15;
+  }
+  .btn-outline {
+    @apply btn text-slate-200 border border-surface-600 hover:border-surface-500 hover:bg-surface-700/60;
+  }
+
+  .hud-card {
+    @apply glass rounded-lg px-3 py-1.5 flex items-center justify-between gap-3 shadow-hud
+      transition-all duration-200;
+  }
+  .hud-label {
+    @apply text-[10px] font-semibold uppercase tracking-wider text-slate-400;
+  }
+  .hud-value {
+    @apply text-sm font-bold tabular-nums;
+  }
+}
+
+/* Leaflet overrides for dark theme */
+.leaflet-container {
+  background: #0b0f1a !important;
+  font-family: theme('fontFamily.sans') !important;
+}
+.leaflet-bar a {
+  background: rgba(20, 26, 43, 0.95) !important;
+  color: #e2e8f0 !important;
+  border-color: rgba(58, 70, 100, 0.6) !important;
+}
+.leaflet-bar a:hover {
+  background: rgba(34, 44, 68, 0.95) !important;
+}
+.leaflet-control-attribution {
+  background: rgba(11, 15, 26, 0.7) !important;
+  color: #64748b !important;
+  font-size: 9px !important;
+}
+.leaflet-control-attribution a { color: #94a3b8 !important; }
+.leaflet-draw-toolbar a {
+  background-color: rgba(20, 26, 43, 0.95) !important;
+  border-color: rgba(58, 70, 100, 0.6) !important;
+}
+.leaflet-draw-toolbar a:hover { background-color: rgba(34, 44, 68, 0.95) !important; }
+
+/* Range slider */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 4px;
+  background: theme('colors.surface.600');
+  outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: theme('colors.brand.500');
+  cursor: pointer;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+}
+input[type="range"]::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: theme('colors.brand.500');
+  cursor: pointer;
+  border: 2px solid #fff;
+}
+
+/* Checkbox */
+input[type="checkbox"] {
+  accent-color: theme('colors.brand.500');
+}
+
+/* Animations */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes slide-right {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+.animate-fade-in { animation: fade-in 0.2s ease-out; }
+.animate-scale-in { animation: scale-in 0.25s ease-out; }
+.animate-slide-right { animation: slide-right 0.25s ease-out; }
+.animate-float { animation: float 3s ease-in-out infinite; }
+
+/* Per-side building dimension labels (traced polygons on the GIS map) */
+.trace-dim {
+  background: none !important;
+  border: none !important;
+}
+.trace-dim span {
+  display: inline-block;
+  transform: translate(-50%, -50%);
+  background: rgba(10, 15, 26, 0.85);
+  color: #e2e8f0;
+  font-size: 9px;
+  font-weight: 700;
+  font-family: ui-monospace, monospace;
+  padding: 1px 5px;
+  border-radius: 4px;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  white-space: nowrap;
+  pointer-events: none;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
